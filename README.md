@@ -53,4 +53,4 @@ A lightweight REST API for managing and exploring Docker containers and images o
 - Registry browser/push/pull
 
 ## API Reference
-See [docs/documentation.md](./docs/documentation.md) and [docs/openapi.yaml](./docs/openapi.yaml) for full details
+See [docs/documentation.md](./docs/documentation.md), [docs/openapi.yaml](./docs/openapi.yaml), and [docs/core-api.md](./docs/core-api.md) for full details

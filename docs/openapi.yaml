@@ -1,0 +1,193 @@
+openapi: 3.0.0
+info:
+  title: Docker GUI Browser API
+  version: 1.0.0
+  description: |
+    REST API for managing and inspecting Docker containers and images.
+    This spec covers all endpoints implemented so far, including safe (read-only) and mutating operations.
+servers:
+  - url: http://127.0.0.1:3000
+paths:
+  /api/containers:
+    get:
+      summary: List all Docker containers
+      description: Returns an array of all Docker containers (running, stopped, paused) with details.
+      responses:
+        '200':
+          description: List of containers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Container'
+  /api/containers/{id}/start:
+    post:
+      summary: Start a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Container started
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/containers/{id}/stop:
+    post:
+      summary: Stop a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Container stopped
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/containers/{id}/restart:
+    post:
+      summary: Restart a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Container restarted
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/containers/{id}:
+    delete:
+      summary: Remove a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Container removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /api/containers/{id}/logs:
+    get:
+      summary: Get logs for a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: tail
+          in: query
+          required: false
+          schema:
+            type: integer
+            default: 100
+      responses:
+        '200':
+          description: Container logs
+          content:
+            text/plain:
+              schema:
+                type: string
+  /api/images:
+    get:
+      summary: List all Docker images
+      description: Returns an array of all local Docker images.
+      responses:
+        '200':
+          description: List of images
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+  /api/images/{id}:
+    delete:
+      summary: Remove an image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image removed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+components:
+  schemas:
+    Container:
+      type: object
+      properties:
+        Id:
+          type: string
+        Names:
+          type: array
+          items:
+            type: string
+        Image:
+          type: string
+        State:
+          type: string
+        Status:
+          type: string
+        Ports:
+          type: array
+          items:
+            type: object
+        Command:
+          type: string
+        Created:
+          type: integer
+    Image:
+      type: object
+      properties:
+        Id:
+          type: string
+        RepoTags:
+          type: array
+          items:
+            type: string
+        Size:
+          type: integer
+        Created:
+          type: integer
+        Labels:
+          type: object
