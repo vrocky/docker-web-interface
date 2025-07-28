@@ -29,8 +29,30 @@ import { createExecsController } from './controllers/execs';
 import { createContainer, TYPES } from './inversify.config';
 
 
-const HOST = '127.0.0.1';
-const PORT = 3000;
+
+
+// CLI argument parsing utility
+function getArg(name: string, defaultValue: string): string {
+  const arg = process.argv.find(a => a.startsWith(`--${name}=`));
+  if (arg) {
+    return arg.split('=')[1];
+  }
+  return defaultValue;
+}
+
+// App factory
+// ...existing code...
+
+// Main entrypoint for CLI usage
+function runCli() {
+  const HOST: string = getArg('host', '127.0.0.1');
+  const PORT: number = parseInt(getArg('port', '3000'), 10);
+  const container = createContainer();
+  const app = createApp(container);
+  app.listen(PORT, HOST, () => {
+    console.log(`Docker Admin API listening at http://${HOST}:${PORT}`);
+  });
+}
 
 export function createApp(container: any) {
   const app = express();
@@ -74,13 +96,13 @@ export function createApp(container: any) {
   return app;
 }
 
-const container = createContainer();
-const app = createApp(container);
 
+// Export for module usage
+export const container = createContainer();
+export const app = createApp(container);
+export { TYPES, createContainer };
+
+// If run directly, start the server using CLI args
 if (require.main === module) {
-  app.listen(PORT, HOST, () => {
-    console.log(`Docker Admin API listening at http://${HOST}:${PORT}`);
-  });
+  runCli();
 }
-
-export { app, container, TYPES, createContainer };
