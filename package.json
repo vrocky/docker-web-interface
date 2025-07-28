@@ -2,12 +2,29 @@
   "name": "docker-admin-server",
   "version": "1.0.0",
   "description": "A lightweight web-based GUI for managing and exploring Docker containers, images, and logs on a local machine, powered by Node.js and dockerode.",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "bin": {
+    "docker-admin-server": "dist/index.js"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js"
+    }
+  },
   "scripts": {
     "test": "jest",
     "test:core": "jest tests/core",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:e2e": "jest tests/e2e",
+    "test:e2e:ts": "jest tests/e2e/safe-api.test.ts",
+    "test:integration": "jest tests/integration",
+    "test:openapi": "jest tests/openapi",
+    "test:apis": "jest tests/apis",
+    "test:all": "jest tests",
+    "start": "npx ts-node src/index.ts",
+    "build": "tsc"
   },
   "keywords": [],
   "author": "",
