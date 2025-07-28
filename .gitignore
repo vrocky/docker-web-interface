@@ -30,3 +30,5 @@ venv/
 # Misc
 *.swp
 *.swo
+
+.idea

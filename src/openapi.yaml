@@ -1,0 +1,403 @@
+openapi: 3.0.3
+info:
+  title: Docker Admin API
+  version: '1.0.0'
+  description: Protocol-compliant API for Docker resource management
+servers:
+  - url: /api
+paths:
+  /containers:
+    get:
+      summary: List containers
+      responses:
+        '200':
+          description: List of containers
+    post:
+      summary: Create a container
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Container created
+  /containers/{id}:
+    get:
+      summary: Inspect a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Container details
+    delete:
+      summary: Remove a container
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Container removed
+  /images:
+    get:
+      summary: List images
+      responses:
+        '200':
+          description: List of images
+    post:
+      summary: Create an image
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Image created
+  /images/{id}:
+    get:
+      summary: Inspect an image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image details
+    delete:
+      summary: Remove an image
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Image removed
+  /volumes:
+    get:
+      summary: List volumes
+      responses:
+        '200':
+          description: List of volumes
+    post:
+      summary: Create a volume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Volume created
+  /volumes/{id}:
+    get:
+      summary: Inspect a volume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Volume details
+    delete:
+      summary: Remove a volume
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Volume removed
+  /networks:
+    get:
+      summary: List networks
+      responses:
+        '200':
+          description: List of networks
+    post:
+      summary: Create a network
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Network created
+  /networks/{id}:
+    get:
+      summary: Inspect a network
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Network details
+    delete:
+      summary: Remove a network
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Network removed
+  /execs:
+    get:
+      summary: List execs
+      responses:
+        '200':
+          description: List of execs
+    post:
+      summary: Create a global exec
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Exec created
+  /execs/{id}:
+    delete:
+      summary: Remove an exec
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Exec removed
+  /nodes:
+    get:
+      summary: List nodes
+      responses:
+        '200':
+          description: List of nodes
+    post:
+      summary: Create a node
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Node created
+  /nodes/{id}:
+    get:
+      summary: Inspect a node
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Node details
+    delete:
+      summary: Remove a node
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Node removed
+  /tasks:
+    get:
+      summary: List tasks
+      responses:
+        '200':
+          description: List of tasks
+    post:
+      summary: Create a task
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '201':
+          description: Task created
+  /tasks/{id}:
+    get:
+      summary: Inspect a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task details
+    delete:
+      summary: Remove a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Task removed
+  /services:
+    get:
+      summary: List services
+      responses:
+        '200':
+          description: List of services
+    post:
+      summary: Create a service
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Service created
+  /services/{id}:
+    get:
+      summary: Inspect a service
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Service details
+    delete:
+      summary: Remove a service
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Service removed
+  /plugins:
+    get:
+      summary: List plugins
+      responses:
+        '200':
+          description: List of plugins
+    post:
+      summary: Create a plugin
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Plugin created
+  /plugins/{id}:
+    get:
+      summary: Inspect a plugin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Plugin details
+    delete:
+      summary: Remove a plugin
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Plugin removed
+  /secrets:
+    get:
+      summary: List secrets
+      responses:
+        '200':
+          description: List of secrets
+    post:
+      summary: Create a secret
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Secret created
+  /secrets/{id}:
+    get:
+      summary: Inspect a secret
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Secret details
+    delete:
+      summary: Remove a secret
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Secret removed
+  /config:
+    get:
+      summary: Get config
+      responses:
+        '200':
+          description: Config details

@@ -1,5 +1,5 @@
 import { ImageService } from '../../src/services/ImageService';
-import { IAppCore } from '../../src/interfaces/IAppCore';
+import { IAppCore } from '../../src/interfaces/core/IAppCore';
 
 describe('ImageService', () => {
   let appCoreMock: jest.Mocked<IAppCore>;

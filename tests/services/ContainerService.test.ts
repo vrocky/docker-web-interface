@@ -1,5 +1,5 @@
 import { ContainerService } from '../../src/services/ContainerService';
-import { IAppCore } from '../../src/interfaces/IAppCore';
+import { IAppCore } from '../../src/interfaces/core/IAppCore';
 
 describe('ContainerService', () => {
   let appCoreMock: jest.Mocked<IAppCore>;

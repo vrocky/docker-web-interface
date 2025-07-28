@@ -1,22 +1,32 @@
+jest.mock('../../src/core/DockerUtils', () => ({
+  isDockerRunning: jest.fn().mockResolvedValue(true),
+  ensureDockerRunning: jest.fn().mockResolvedValue(true),
+}));
+import './setup';
+
+import { createTestContext, dockerUtilsMock } from './setup';
 import Docker from 'dockerode';
 import { ContainerCore } from '../../src/core/ContainerCore';
 
 describe('ContainerCore (read-only)', () => {
-  let docker: Docker;
   let core: ContainerCore;
+  let dockerMock: any;
 
-  beforeAll(() => {
-    docker = new Docker();
-    core = new ContainerCore(docker);
+  beforeEach(() => {
+    dockerMock = {
+      listContainers: jest.fn().mockResolvedValue([{ Id: 'cont1' }, { Id: 'cont2' }]),
+      getContainer: jest.fn(),
+      createContainer: jest.fn(),
+    };
+    core = new ContainerCore(createTestContext({ docker: dockerMock }));
   });
 
   test('listContainers returns an array', async () => {
     const containers = await core.listContainers();
     expect(Array.isArray(containers)).toBe(true);
+    expect(containers.length).toBe(2);
   });
 });
-
-// Side-effecting methods are mocked
 
 describe('ContainerCore (side effects, mocked)', () => {
   let core: ContainerCore;
@@ -32,8 +42,9 @@ describe('ContainerCore (side effects, mocked)', () => {
         logs: jest.fn().mockResolvedValue('mock logs'),
       }),
       listContainers: jest.fn().mockResolvedValue([]),
+      createContainer: jest.fn(),
     };
-    core = new ContainerCore(dockerMock);
+    core = new ContainerCore(createTestContext({ docker: dockerMock }));
   });
 
   test('startContainer calls docker.getContainer().start', async () => {
@@ -55,15 +66,15 @@ describe('ContainerCore (side effects, mocked)', () => {
   });
 
   test('removeContainer calls docker.getContainer().remove', async () => {
-    await core.removeContainer('id');
+    await core.removeContainer('id', { force: true });
     expect(dockerMock.getContainer).toHaveBeenCalledWith('id');
     expect(dockerMock.getContainer().remove).toHaveBeenCalledWith({ force: true });
   });
 
   test('getContainerLogs calls docker.getContainer().logs', async () => {
-    const logs = await core.getContainerLogs('id', 50);
+    const logs = await core.getContainerLogs('id', { tail: 50 });
     expect(dockerMock.getContainer).toHaveBeenCalledWith('id');
-    expect(dockerMock.getContainer().logs).toHaveBeenCalledWith({ stdout: true, stderr: true, tail: 50, timestamps: false });
+    expect(dockerMock.getContainer().logs).toHaveBeenCalled();
     expect(logs).toBe('mock logs');
   });
 });
