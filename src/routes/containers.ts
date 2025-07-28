@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import * as containersController from '../controllers/containers';
+import { createContainersController } from '../controllers/containers';
 
-const router = Router();
-
-router.get('/', containersController.listContainers);
-router.post('/:id/start', containersController.startContainer);
-router.post('/:id/stop', containersController.stopContainer);
-router.post('/:id/restart', containersController.restartContainer);
-router.delete('/:id', containersController.removeContainer);
-router.get('/:id/logs', containersController.getContainerLogs);
-
-export default router;
+export function createContainersRouter(controller: ReturnType<typeof createContainersController>) {
+  const router = Router();
+  router.get('/', controller.listContainers);
+  router.post('/:id/start', controller.startContainer);
+  router.post('/:id/stop', controller.stopContainer);
+  router.post('/:id/restart', controller.restartContainer);
+  router.delete('/:id', controller.removeContainer);
+  router.get('/:id/logs', controller.getContainerLogs);
+  return router;
+}

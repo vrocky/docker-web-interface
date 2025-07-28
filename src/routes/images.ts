@@ -1,9 +1,9 @@
 import { Router } from 'express';
-import * as imagesController from '../controllers/images';
+import { createImagesController } from '../controllers/images';
 
-const router = Router();
-
-router.get('/', imagesController.listImages);
-router.delete('/:id', imagesController.removeImage);
-
-export default router;
+export function createImagesRouter(controller: ReturnType<typeof createImagesController>) {
+  const router = Router();
+  router.get('/', controller.listImages);
+  router.delete('/:id', controller.removeImage);
+  return router;
+}

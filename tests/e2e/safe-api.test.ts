@@ -1,12 +1,6 @@
-import request from 'supertest';
-import express from 'express';
-import containersRouter from '../../src/routes/containers';
-import imagesRouter from '../../src/routes/images';
 
-const app = express();
-app.use(express.json());
-app.use('/api/containers', containersRouter);
-app.use('/api/images', imagesRouter);
+import request from 'supertest';
+import app from '../../src/index';
 
 describe('E2E Safe API Tests', () => {
   test('GET /api/containers returns array', async () => {

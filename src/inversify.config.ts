@@ -13,20 +13,24 @@ const TYPES = {
   IAppCore: Symbol.for('IAppCore'),
 };
 
-const container = new Container();
+export function createContainer() {
+  const container = new Container();
 
-// Bind god object (AppCore) as singleton
-container.bind<IAppCore>(TYPES.IAppCore).to(AppCore).inSingletonScope();
+  // Bind god object (AppCore) as singleton
+  container.bind<IAppCore>(TYPES.IAppCore).to(AppCore).inSingletonScope();
 
-// Bind services, injecting god object
-container.bind<IContainerService>(TYPES.IContainerService).toDynamicValue((ctx: any) => {
-  const appCore = ctx.container.get(TYPES.IAppCore);
-  return new ContainerService(appCore);
-}).inSingletonScope();
+  // Bind services, injecting god object
+container.bind<IContainerService>(TYPES.IContainerService).toDynamicValue(() => {
+    const appCore = container.get<IAppCore>(TYPES.IAppCore);
+    return new ContainerService(appCore);
+  }).inSingletonScope();
 
-container.bind<IImageService>(TYPES.IImageService).toDynamicValue((ctx: any) => {
-  const appCore = ctx.container.get(TYPES.IAppCore);
-  return new ImageService(appCore);
-}).inSingletonScope();
+  container.bind<IImageService>(TYPES.IImageService).toDynamicValue(() => {
+    const appCore = container.get<IAppCore>(TYPES.IAppCore);
+    return new ImageService(appCore);
+  }).inSingletonScope();
 
-export { container, TYPES };
+  return container;
+}
+
+export { TYPES };
